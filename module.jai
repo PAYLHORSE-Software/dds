@@ -40,31 +40,31 @@ DDS_HEADER_DXT10 :: struct {
 }
 
 DDS_HEADER_FLAGS :: enum u32 {
-    DDSD_CAPS         :: 0x1,
-    DDSD_HEIGHT	      :: 0x2,
-    DDSD_WIDTH	      :: 0x4,
-    DDSD_PITCH	      :: 0x8,
-    DDSD_PIXELFORMAT  :: 0x1000,
-    DDSD_MIPMAPCOUNT  :: 0x20000,
-    DDSD_LINEARSIZE   :: 0x80000,
-    DDSD_DEPTH	      :: 0x800000
+    DDSD_CAPS         :: 0x1;
+    DDSD_HEIGHT	      :: 0x2;
+    DDSD_WIDTH	      :: 0x4;
+    DDSD_PITCH	      :: 0x8;
+    DDSD_PIXELFORMAT  :: 0x1000;
+    DDSD_MIPMAPCOUNT  :: 0x20000;
+    DDSD_LINEARSIZE   :: 0x80000;
+    DDSD_DEPTH	      :: 0x800000;
 }
 
 DDS_HEADER_CAPS :: enum u32 {
-    DDSCAPS_COMPLEX :: 0x8,
-    DDSCAPS_MIPMAP  :: 0x400000,
-    DDSCAPS_TEXTURE :: 0x1000
+    DDSCAPS_COMPLEX :: 0x8;
+    DDSCAPS_MIPMAP  :: 0x400000;
+    DDSCAPS_TEXTURE :: 0x1000;
 }
 
 DDS_HEADER_CAPS2 :: enum u32 {
-    DDSCAPS2_CUBEMAP           :: 0x200,
-    DDSCAPS2_CUBEMAP_POSITIVEX :: 0x400,
-    DDSCAPS2_CUBEMAP_NEGATIVEX :: 0x800,
-    DDSCAPS2_CUBEMAP_POSITIVEY :: 0x1000,
-    DDSCAPS2_CUBEMAP_NEGATIVEY :: 0x2000,
-    DDSCAPS2_CUBEMAP_POSITIVEZ :: 0x4000,
-    DDSCAPS2_CUBEMAP_NEGATIVEZ :: 0x8000,
-    DDSCAPS2_VOLUME            :: 0x200000
+    DDSCAPS2_CUBEMAP           :: 0x200;
+    DDSCAPS2_CUBEMAP_POSITIVEX :: 0x400;
+    DDSCAPS2_CUBEMAP_NEGATIVEX :: 0x800;
+    DDSCAPS2_CUBEMAP_POSITIVEY :: 0x1000;
+    DDSCAPS2_CUBEMAP_NEGATIVEY :: 0x2000;
+    DDSCAPS2_CUBEMAP_POSITIVEZ :: 0x4000;
+    DDSCAPS2_CUBEMAP_NEGATIVEZ :: 0x8000;
+    DDSCAPS2_VOLUME            :: 0x200000;
 }
 
 DDS_PIXELFORMAT :: struct {
@@ -79,12 +79,12 @@ DDS_PIXELFORMAT :: struct {
 }
 
 DDS_PIXELFORMAT_FLAGS :: enum u32 {
-    DDPF_ALPHAPIXELS :: 0x1,
-    DDPF_ALPHA       :: 0x2,
-    DDPF_FOURCC      :: 0x4,
-    DDPF_RGB         :: 0x40,
-    DDPF_YUV         :: 0x200,
-    DDPF_LUMINANCE   :: 0x20000
+    DDPF_ALPHAPIXELS :: 0x1;
+    DDPF_ALPHA       :: 0x2;
+    DDPF_FOURCC      :: 0x4;
+    DDPF_RGB         :: 0x40;
+    DDPF_YUV         :: 0x200;
+    DDPF_LUMINANCE   :: 0x20000;
 }
 
 // PROCEDURES -------------------------------------------------
@@ -187,8 +187,8 @@ dds_parse_dxt5 :: (
 		alpha_codes: u64;
 
 		block_offset := (y * blocks_x + x) * 16;
-		alpha0 := data[block_offset]
-		alpha1 := data[block_offset + 1]
+		alpha0 := data[block_offset];
+		alpha1 := data[block_offset + 1];
 		memcpy(*alpha_data, data + block_offset, 8);
 		memcpy(*color0, data + block_offset + 8, 2);
 		memcpy(*color1, data + block_offset + 10, 2);
@@ -225,18 +225,22 @@ dds_parse_dxt5 :: (
 			  image.pixels[px_index] = (2 * r0 + r1) / 3;
 			  image.pixels[px_index + 1] = (2 * g0 + g1) / 3;
                           image.pixels[px_index + 2] = (2 * b0 + b1) / 3;
-			else {
-			    if alpha0 > alpha1 alpha = ((8 - alpha_code) * alpha0 + (alpha_code - 1) * alpha1) / 7;
-			    else {
-				if alpha_code == 6 alpha = 0;
-				else if alpha_code == 7 alpha = 255;
-				else alpha = ((6 - alpha_code) * alpha0 + (alpha_code - 1) * alpha1) / 5;
-			    }
-			}
+			  if alpha0 > alpha1 alpha = ((8 - alpha_code) * alpha0 + (alpha_code - 1) * alpha1) / 7;
+			  else {
+			      if alpha_code == 6 alpha = 0;
+			      else if alpha_code == 7 alpha = 255;
+			      else alpha = ((6 - alpha_code) * alpha0 + (alpha_code - 1) * alpha1) / 5;
+			  }
 			case 3;
 			  image.pixels[px_index] = (r0 + 2 * r1) / 3;
 			  image.pixels[px_index + 1] = (g0 + 2 * g1) / 3;
 			  image.pixels[px_index + 2] = (b0 + 2 * b1) / 3;
+			  if alpha0 > alpha1 alpha = ((8 - alpha_code) * alpha0 + (alpha_code - 1) * alpha1) / 7;
+			  else {
+			      if alpha_code == 6 alpha = 0;
+			      else if alpha_code == 7 alpha = 255;
+			      else alpha = ((6 - alpha_code) * alpha0 + (alpha_code - 1) * alpha1) / 5;
+			  }
 		    }
 		    
                     dds_image.bdata[px_index + 3] = alpha;
