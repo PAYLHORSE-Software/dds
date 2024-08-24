@@ -91,18 +91,6 @@ DDS_PIXELFORMAT_FLAGS :: enum u32 {
 
 /*
 ====================
-memcpy_eat
-
-Convenience, memcpy() then advance cursor to end of copy region.
-====================
-*/
-memcpy_eat :: (pdst: *void, psrc: *void, size: s64) #expand {
-    memcpy(pdst, psrc, size);
-    `cursor += size;
-}
-
-/*
-====================
 dds_from_file
 
 Convenience, read_entire_file() then dds_from_memory().
@@ -138,6 +126,22 @@ dds_from_memory :: (data: *u8, length: u64) -> DDS_Image {
 
     return dds_image;
 }
+
+#scope_module
+
+/*
+====================
+memcpy_eat
+
+Convenience, memcpy() then advance cursor to end of copy region.
+====================
+*/
+memcpy_eat :: (pdst: *void, psrc: *void, size: s64) #expand {
+    memcpy(pdst, psrc, size);
+    `cursor += size;
+}
+
+
 
 #import "Basic";
 #import "File";
